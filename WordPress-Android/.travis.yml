@@ -1,0 +1,36 @@
+language: android
+jdk: oraclejdk8
+sudo: required
+
+notifications:
+  # Slack notification on failure (secured token).
+  slack:
+    rooms:
+      secure: sOTcwi1DT0lJykB/smJQwJ5lQblg9jc5PtLsTu4euI/P4nCv1CPu5DVZ1aDwXL6TPDUO5uEwbzbjVFZzrl2nFdAV9XvGT3wL3Zrm2Y5HBtwi8JWdbc4dYR/xobJlIg7HRczXwoFt6yls4BUayNJJbZFV9q0ftmUSe77Pag/ZWQw=
+    on_failure: always
+    on_success: change
+
+android:
+  components:
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - extra-android-support
+    - platform-tools
+    - tools
+    - build-tools-27.0.3
+    - android-27
+
+env:
+  global:
+    - MALLOC_ARENA_MAX=2
+    - GRADLE_OPTS="-XX:MaxPermSize=4g -Xmx4g"
+    - ANDROID_SDKS=android-14
+    - ANDROID_TARGET=android-14
+
+install:
+  # Setup gradle.properties
+  - cp gradle.properties-example gradle.properties
+  - cp libs/login/gradle.properties-example libs/login/gradle.properties
+
+script:
+  - ./gradlew -PdisablePreDex checkstyle ktlint assembleVanillaRelease lintVanillaRelease testVanillaRelease || (grep -A20 -B2 'severity="Error"' -r --include="*.xml" WordPress libs; exit 1)

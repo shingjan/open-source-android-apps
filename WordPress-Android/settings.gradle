@@ -1,0 +1,6 @@
+include ':WordPress'
+include ':libs:utils:WordPressUtils'
+include ':libs:networking:WordPressNetworking'
+include ':libs:analytics:WordPressAnalytics'
+include ':libs:editor:WordPressEditor'
+include ':libs:login:WordPressLoginFlow'

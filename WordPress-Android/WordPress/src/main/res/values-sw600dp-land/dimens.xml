@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="reader_detail_margin">@dimen/reader_detail_margin_tablet_landscape</dimen>
+</resources>
